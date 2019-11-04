@@ -12,30 +12,35 @@ import (
 
 func main() {
 	fmt.Println("Guess a number between 1 and 100")
-	fmt.Println("Please input your guess")
 
 	secretNumber := generateRandomInteger(1, 100)
-	fmt.Println("The secret number is", secretNumber)
 
-	reader := bufio.NewReader(os.Stdin)
-	input, _ := reader.ReadString('\n')
-	input = strings.TrimSuffix(input, "\n")
+	var attempts int
 
-	guess, err := strconv.Atoi(input)
+	for {
+		attempts++
+		fmt.Println("Please input your guess")
+		reader := bufio.NewReader(os.Stdin)
+		input, _ := reader.ReadString('\n')
+		input = strings.TrimSuffix(input, "\n")
 
-	if err != nil {
-		fmt.Println("Invalid input. Please enter an integer value")
-		return
-	}
+		guess, err := strconv.Atoi(input)
 
-	fmt.Println("Your guess is", guess)
+		if err != nil {
+			fmt.Println("Invalid input. Please enter an integer value")
+			continue
+		}
 
-	if guess > secretNumber {
-		fmt.Println("Your guess is bigger than the secret number. Try again")
-	} else if guess < secretNumber {
-		fmt.Println("Your guess is smaller than the secret number. Try again")
-	} else {
-		fmt.Println("Correct, you Legend!")
+		fmt.Println("Your guess is", guess)
+
+		if guess > secretNumber {
+			fmt.Println("Your guess is bigger than the secret number. Try again")
+		} else if guess < secretNumber {
+			fmt.Println("Your guess is smaller than the secret number. Try again")
+		} else {
+			fmt.Printf("Correct, you Legend! You guessed right after %d attempts", attempts)
+			break
+		}
 	}
 }
 
